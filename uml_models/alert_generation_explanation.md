@@ -1,0 +1,9 @@
+The Alert Generation System is responsible for monitoring incoming patient data and detecting potentially dangerous cardiovascular conditions in real time. The main goal of this subsystem is to ensure that abnormal measurements, such as extremely high heart rate or abnormal blood pressure values, are identified quickly and transformed into alerts that can be forwarded to medical staff.
+
+The design is centered around the AlertGenerator class, which evaluates incoming patient records stored in the DataStorage system. I separated the alert evaluation logic from the alert distribution logic by introducing the AlertManager class. This improves modularity and keeps responsibilities clear. The AlertGenerator only decides whether an alert should be created, while the AlertManager handles storing and dispatching alerts.
+
+The Alert class represents an individual medical alert and stores important information such as the patient ID, the condition that triggered the alert, and the timestamp. I also introduced ThresholdRule and ThresholdManager classes to support personalized thresholds for different patients. This makes the system more flexible and extensible because different alert conditions can be configured without modifying the core evaluation logic.
+
+Composition relationships were used between Patient and PatientRecord because patient records should not exist independently from a patient. Aggregation was used for AlertManager and Alert because alerts may still exist even if the manager changes.
+
+Overall, the design focuses on separation of concerns, maintainability, and extensibility. The subsystem could easily be expanded in the future to support additional alert types, severity levels, or notification mechanisms such as SMS or email alerts.

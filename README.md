@@ -66,3 +66,17 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ##Project Member(s)
 - Student ID: i6443234
+## UML Models
+
+This repository now includes UML class diagrams for the Cardiovascular Health Monitoring System (CHMS) assignment.
+
+The UML models can be found in the `uml_models` directory and cover the following subsystems:
+
+- Alert Generation System
+- Data Storage System
+- Patient Identification System
+- Data Access Layer
+
+The diagrams were designed based on the existing project architecture and extended using software engineering principles such as modularity, separation of concerns, abstraction, and extensibility.
+
+Each subsystem also includes a short design explanation discussing the rationale behind the class structure and relationships.

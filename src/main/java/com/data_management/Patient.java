@@ -1,23 +1,26 @@
 package com.data_management;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
- * Represents a patient and manages their medical records.
- * This class stores patient-specific data, allowing for the addition and
- * retrieval
- * of medical records based on specified criteria.
+ * Represents one patient and stores all medical records belonging to that patient.
+ *
+ * <p>This class is responsible only for patient-level record storage and retrieval. It does not
+ * know anything about alert rules or file parsing, which keeps the design modular.</p>
  */
 public class Patient {
-    private int patientId;
-    private List<PatientRecord> patientRecords;
+    /** Unique identifier of this patient. */
+    private final int patientId;
+
+    /** All records belonging to this patient. */
+    private final List<PatientRecord> patientRecords;
 
     /**
-     * Constructs a new Patient with a specified ID.
-     * Initializes an empty list of patient records.
+     * Creates a patient with the given ID.
      *
-     * @param patientId the unique identifier for the patient
+     * @param patientId unique patient identifier
      */
     public Patient(int patientId) {
         this.patientId = patientId;
@@ -25,34 +28,63 @@ public class Patient {
     }
 
     /**
-     * Adds a new record to this patient's list of medical records.
-     * The record is created with the specified measurement value, record type, and
-     * timestamp.
+     * Returns this patient's ID.
      *
-     * @param measurementValue the measurement value to store in the record
-     * @param recordType       the type of record, e.g., "HeartRate",
-     *                         "BloodPressure"
-     * @param timestamp        the time at which the measurement was taken, in
-     *                         milliseconds since UNIX epoch
+     * @return patient ID
      */
-    public void addRecord(double measurementValue, String recordType, long timestamp) {
-        PatientRecord record = new PatientRecord(this.patientId, measurementValue, recordType, timestamp);
-        this.patientRecords.add(record);
+    public int getPatientId() {
+        return patientId;
     }
 
     /**
-     * Retrieves a list of PatientRecord objects for this patient that fall within a
-     * specified time range.
-     * The method filters records based on the start and end times provided.
+     * Adds a new medical record to this patient.
      *
-     * @param startTime the start of the time range, in milliseconds since UNIX
-     *                  epoch
-     * @param endTime   the end of the time range, in milliseconds since UNIX epoch
-     * @return a list of PatientRecord objects that fall within the specified time
-     *         range
+     * @param measurementValue numeric measurement value
+     * @param recordType measurement type, for example {@code ECG}, {@code Saturation},
+     *        {@code SystolicPressure}, {@code DiastolicPressure}, or {@code Alert}
+     * @param timestamp measurement timestamp
+     */
+    public void addRecord(double measurementValue, String recordType, long timestamp) {
+        PatientRecord record = new PatientRecord(patientId, measurementValue, recordType, timestamp);
+        patientRecords.add(record);
+    }
+
+    /**
+     * Returns all records between the given start and end timestamps, including both boundaries.
+     *
+     * <p>Implemented for Project Part 3. The assignment explicitly requires this method to filter
+     * patient records by time range.</p>
+     *
+     * @param startTime first timestamp to include
+     * @param endTime last timestamp to include
+     * @return matching records sorted by timestamp
      */
     public List<PatientRecord> getRecords(long startTime, long endTime) {
-        // TODO Implement and test this method
-        return null;
+        List<PatientRecord> recordsInRange = new ArrayList<>();
+
+        for (PatientRecord record : patientRecords) {
+            long timestamp = record.getTimestamp();
+
+            if (timestamp >= startTime && timestamp <= endTime) {
+                recordsInRange.add(record);
+            }
+        }
+
+        recordsInRange.sort(Comparator.comparingLong(PatientRecord::getTimestamp));
+        return recordsInRange;
+    }
+
+    /**
+     * Returns all records for this patient.
+     *
+     * <p>A copy is returned to avoid exposing the internal mutable list. This prevents outside
+     * classes from accidentally changing this patient's stored records.</p>
+     *
+     * @return all records sorted by timestamp
+     */
+    public List<PatientRecord> getAllRecords() {
+        List<PatientRecord> records = new ArrayList<>(patientRecords);
+        records.sort(Comparator.comparingLong(PatientRecord::getTimestamp));
+        return records;
     }
 }

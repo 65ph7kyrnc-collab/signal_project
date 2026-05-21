@@ -1,0 +1,9 @@
+The Data Access Layer is responsible for connecting the simulator outputs to the rest of the Cardiovascular Health Monitoring System. The goal of this subsystem is to retrieve incoming data from multiple sources while keeping the rest of the application independent from the underlying communication technology.
+
+The design is heavily based on the existing project architecture, which already uses the OutputStrategy interface together with multiple implementations such as TcpOutputStrategy, FileOutputStrategy, and WebSocketOutputStrategy. This is a good example of polymorphism and loose coupling because the simulator can switch between different output methods without changing the core simulation logic.
+
+The HealthDataSimulator class coordinates the generation of patient data and delegates output responsibilities to the selected OutputStrategy implementation. I also modeled several specialized data generators, such as ECGDataGenerator and BloodPressureDataGenerator, which inherit from PatientDataGenerator. This keeps each generator focused on one specific responsibility and improves maintainability.
+
+Inheritance relationships were used between the output strategies and the OutputStrategy interface because all strategies share the same output behavior but implement it differently. This design also follows the Open-Closed Principle because additional communication methods could be added later without modifying existing classes.
+
+The subsystem was designed to demonstrate abstraction, extensibility, and separation of concerns. The architecture allows the system to support TCP, WebSocket, or file-based communication while keeping the rest of the CHMS independent from how the data is transmitted.
