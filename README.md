@@ -68,3 +68,10 @@ The expected message format is:
 
 ```text
 patientId,timestamp,label,value
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+##Project Member(s)
+- Student ID: i6443234
