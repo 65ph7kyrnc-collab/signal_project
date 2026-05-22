@@ -9,7 +9,6 @@ import com.alerts.strategies.OxygenSaturationStrategy;
 import com.data_management.DataStorage;
 import com.data_management.Patient;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -30,12 +29,27 @@ public class AlertGenerator {
      * @param dataStorage storage containing patient data
      */
     public AlertGenerator(DataStorage dataStorage) {
-        this(dataStorage, Arrays.asList(
-                new BloodPressureStrategy(),
-                new OxygenSaturationStrategy(),
-                new CombinedRiskStrategy(),
-                new HeartRateStrategy(),
-                new ManualAlertStrategy()));
+        this(dataStorage, createDefaultStrategies());
+    }
+
+    /**
+     * Creates the default list of alert strategies.
+     *
+     * <p>This method avoids Arrays.asList(...) because Java's type inference can sometimes fail
+     * when several concrete strategy classes are passed into a generic varargs method.</p>
+     *
+     * @return default alert strategies
+     */
+    private static List<AlertStrategy> createDefaultStrategies() {
+        List<AlertStrategy> defaultStrategies = new ArrayList<>();
+
+        defaultStrategies.add(new BloodPressureStrategy());
+        defaultStrategies.add(new OxygenSaturationStrategy());
+        defaultStrategies.add(new CombinedRiskStrategy());
+        defaultStrategies.add(new HeartRateStrategy());
+        defaultStrategies.add(new ManualAlertStrategy());
+
+        return defaultStrategies;
     }
 
     /**

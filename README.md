@@ -1,82 +1,70 @@
-# Cardio Data Simulator
+# Signal Project
 
-The Cardio Data Simulator is a Java-based application designed to simulate real-time cardiovascular data for multiple patients. This tool is particularly useful for educational purposes, enabling students to interact with real-time data streams of ECG, blood pressure, blood saturation, and other cardiovascular signals.
+This project is part of the Software Engineering course at Maastricht University.  
+The goal of the project is to simulate, process, store, and evaluate patient health data using clean object-oriented design, testing, design patterns, and real-time data processing.
 
-## Features
+The system started as a basic health data simulator and has been extended over several project phases. It now supports file-based data processing, alert generation, design pattern-based alert handling, and real-time WebSocket-based data input.
 
-- Simulate real-time ECG, blood pressure, blood saturation, and blood levels data.
-- Supports multiple output strategies:
-  - Console output for direct observation.
-  - File output for data persistence.
-  - WebSocket and TCP output for networked data streaming.
-- Configurable patient count and data generation rate.
-- Randomized patient ID assignment for simulated data diversity.
+---
 
-## Getting Started
+## Project Overview
 
-### Prerequisites
+The project simulates patient health signals such as:
 
-- Java JDK 11 or newer.
-- Maven for managing dependencies and compiling the application.
+- ECG / heart rate data
+- Blood oxygen saturation
+- Blood pressure values
+- Manual alert states
 
-### Installation
+The generated data can be written to different outputs and later read into the system for analysis. The system stores patient data in `DataStorage`, organizes it by patient, and evaluates it through the alert system.
 
-1. Clone the repository:
+The latest phase adds real-time processing through WebSockets. This means the system can now receive patient data continuously from a running WebSocket server instead of only reading data from static files.
 
-   ```sh
-   git clone https://github.com/tpepels/signal_project.git
-   ```
+---
 
-2. Navigate to the project directory:
+## Main Features
 
-   ```sh
-   cd signal_project
-   ```
+### Health Data Simulation
 
-3. Compile and package the application using Maven:
-   ```sh
-   mvn clean package
-   ```
-   This step compiles the source code and packages the application into an executable JAR file located in the `target/` directory.
+The simulator can generate different kinds of patient health data and send it to several output targets.
 
-### Running the Simulator
+Supported output strategies include:
 
-After packaging, you can run the simulator directly from the executable JAR:
+- Console output
+- File output
+- TCP output
+- WebSocket output
 
-```sh
-java -jar target/cardio_generator-1.0-SNAPSHOT.jar
-```
+The WebSocket output starts a WebSocket server and broadcasts generated patient data to connected clients.
 
-To run with specific options (e.g., to set the patient count and choose an output strategy):
+---
 
-```sh
-java -jar target/cardio_generator-1.0-SNAPSHOT.jar --patient-count 100 --output file:./output
-```
+### Data Management
 
-### Supported Output Options
+The data management package is responsible for reading, parsing, storing, and organizing patient data.
 
-- `console`: Directly prints the simulated data to the console.
-- `file:<directory>`: Saves the simulated data to files within the specified directory.
-- `websocket:<port>`: Streams the simulated data to WebSocket clients connected to the specified port.
-- `tcp:<port>`: Streams the simulated data to TCP clients connected to the specified port.
+Important classes include:
 
-## License
+- `DataStorage`
+- `Patient`
+- `PatientRecord`
+- `DataReader`
+- `FileDataReader`
+- `WebSocketDataReader`
+- `PatientDataParser`
+- `PatientDataMessage`
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+`DataStorage` keeps track of all patients and their records. Data can be loaded either from files or from a WebSocket stream.
 
-##Project Member(s)
-- Student ID: i6443234
-## UML Models
+---
 
-This repository now includes UML class diagrams for the Cardiovascular Health Monitoring System (CHMS) assignment.
+### Real-Time WebSocket Processing
 
-The UML models can be found in the `uml_models` directory and cover the following subsystems:
+Project Part 5 adds support for real-time patient data processing.
 
-- Alert Generation System
-- Data Storage System
-- Patient Identification System
-- Data Access Layer
+The new WebSocket reader connects to a WebSocket server, receives live patient messages, parses them, and stores them in `DataStorage`.
 
-The diagrams were designed based on the existing project architecture and extended using software engineering principles such as modularity, separation of concerns, abstraction, and extensibility.
+The expected message format is:
 
-Each subsystem also includes a short design explanation discussing the rationale behind the class structure and relationships.
+```text
+patientId,timestamp,label,value

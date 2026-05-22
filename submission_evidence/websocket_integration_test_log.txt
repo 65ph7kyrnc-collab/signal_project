@@ -1,0 +1,39 @@
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::staticFieldBase has been called by com.google.inject.internal.aop.HiddenClassDefiner (file:/opt/homebrew/Cellar/maven/3.9.11/libexec/lib/guice-5.1.0-classes.jar)
+WARNING: Please consider reporting this to the maintainers of class com.google.inject.internal.aop.HiddenClassDefiner
+WARNING: sun.misc.Unsafe::staticFieldBase will be removed in a future release
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------< com.cardio_generator:signal_project >-----------------
+[INFO] Building signal_project 1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- jacoco:0.8.11:prepare-agent (default) @ signal_project ---
+[INFO] argLine set to -javaagent:/Users/laurenz/.m2/repository/org/jacoco/org.jacoco.agent/0.8.11/org.jacoco.agent-0.8.11-runtime.jar=destfile=/Users/laurenz/signal_project/target/jacoco.exec
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ signal_project ---
+[INFO] skip non existing resourceDirectory /Users/laurenz/signal_project/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.10.1:compile (default-compile) @ signal_project ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 43 source files to /Users/laurenz/signal_project/target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ signal_project ---
+[INFO] skip non existing resourceDirectory /Users/laurenz/signal_project/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.10.1:testCompile (default-testCompile) @ signal_project ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 11 source files to /Users/laurenz/signal_project/target/test-classes
+[INFO] 
+[INFO] --- surefire:2.22.2:test (default-test) @ signal_project ---
+[INFO] 
+[INFO] --- jacoco:0.8.11:report (report) @ signal_project ---
+[INFO] Loading execution data file /Users/laurenz/signal_project/target/jacoco.exec
+[INFO] Analyzed bundle 'signal_project' with 37 classes
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  1.602 s
+[INFO] Finished at: 2026-05-22T15:09:33+02:00
+[INFO] ------------------------------------------------------------------------
