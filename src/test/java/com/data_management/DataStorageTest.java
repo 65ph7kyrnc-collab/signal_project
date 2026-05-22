@@ -4,15 +4,21 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for DataStorage.
  */
 class DataStorageTest {
+    @BeforeEach
+    void clearSingletonStorageBeforeEachTest() {
+        DataStorage.getInstance().clear();
+    }
+
     @Test
     void addPatientDataCreatesNewPatientAndStoresRecord() {
-        DataStorage storage = new DataStorage();
+        DataStorage storage = DataStorage.getInstance();
 
         storage.addPatientData(1, 98.0, "Saturation", 1000L);
 
@@ -27,7 +33,7 @@ class DataStorageTest {
 
     @Test
     void getRecordsReturnsEmptyListForUnknownPatient() {
-        DataStorage storage = new DataStorage();
+        DataStorage storage = DataStorage.getInstance();
 
         List<PatientRecord> records = storage.getRecords(999, 0L, 1000L);
 
@@ -36,7 +42,7 @@ class DataStorageTest {
 
     @Test
     void getRecordsFiltersByTimeRange() {
-        DataStorage storage = new DataStorage();
+        DataStorage storage = DataStorage.getInstance();
 
         storage.addPatientData(1, 80.0, "SystolicPressure", 1000L);
         storage.addPatientData(1, 90.0, "SystolicPressure", 2000L);

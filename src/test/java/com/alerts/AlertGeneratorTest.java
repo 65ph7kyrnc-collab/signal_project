@@ -4,15 +4,21 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.data_management.DataStorage;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for AlertGenerator.
  */
 class AlertGeneratorTest {
+    @BeforeEach
+    void clearSingletonStorageBeforeEachTest() {
+        DataStorage.getInstance().clear();
+    }
+
     @Test
     void evaluateDataTriggersCriticalSystolicBloodPressureAlert() {
-        DataStorage storage = new DataStorage();
+        DataStorage storage = DataStorage.getInstance();
 
         storage.addPatientData(1, 181.0, "SystolicPressure", 1000L);
 
@@ -24,7 +30,7 @@ class AlertGeneratorTest {
 
     @Test
     void evaluateDataTriggersCriticalDiastolicBloodPressureAlert() {
-        DataStorage storage = new DataStorage();
+        DataStorage storage = DataStorage.getInstance();
 
         storage.addPatientData(1, 121.0, "DiastolicPressure", 1000L);
 
@@ -36,7 +42,7 @@ class AlertGeneratorTest {
 
     @Test
     void exactBloodPressureThresholdsDoNotTriggerCriticalAlert() {
-        DataStorage storage = new DataStorage();
+        DataStorage storage = DataStorage.getInstance();
 
         storage.addPatientData(1, 180.0, "SystolicPressure", 1000L);
         storage.addPatientData(1, 90.0, "SystolicPressure", 2000L);
@@ -51,7 +57,7 @@ class AlertGeneratorTest {
 
     @Test
     void evaluateDataTriggersIncreasingBloodPressureTrendAlert() {
-        DataStorage storage = new DataStorage();
+        DataStorage storage = DataStorage.getInstance();
 
         storage.addPatientData(1, 100.0, "SystolicPressure", 1000L);
         storage.addPatientData(1, 112.0, "SystolicPressure", 2000L);
@@ -65,7 +71,7 @@ class AlertGeneratorTest {
 
     @Test
     void evaluateDataTriggersDecreasingBloodPressureTrendAlert() {
-        DataStorage storage = new DataStorage();
+        DataStorage storage = DataStorage.getInstance();
 
         storage.addPatientData(1, 130.0, "DiastolicPressure", 1000L);
         storage.addPatientData(1, 115.0, "DiastolicPressure", 2000L);
@@ -79,7 +85,7 @@ class AlertGeneratorTest {
 
     @Test
     void exactTenPointBloodPressureChangesDoNotTriggerTrendAlert() {
-        DataStorage storage = new DataStorage();
+        DataStorage storage = DataStorage.getInstance();
 
         storage.addPatientData(1, 100.0, "SystolicPressure", 1000L);
         storage.addPatientData(1, 110.0, "SystolicPressure", 2000L);
@@ -93,7 +99,7 @@ class AlertGeneratorTest {
 
     @Test
     void evaluateDataTriggersLowSaturationAlert() {
-        DataStorage storage = new DataStorage();
+        DataStorage storage = DataStorage.getInstance();
 
         storage.addPatientData(1, 91.0, "Saturation", 1000L);
 
@@ -105,7 +111,7 @@ class AlertGeneratorTest {
 
     @Test
     void exactSaturationThresholdDoesNotTriggerLowSaturationAlert() {
-        DataStorage storage = new DataStorage();
+        DataStorage storage = DataStorage.getInstance();
 
         storage.addPatientData(1, 92.0, "Saturation", 1000L);
 
@@ -117,7 +123,7 @@ class AlertGeneratorTest {
 
     @Test
     void evaluateDataTriggersRapidSaturationDropAlert() {
-        DataStorage storage = new DataStorage();
+        DataStorage storage = DataStorage.getInstance();
 
         storage.addPatientData(1, 98.0, "Saturation", 1000L);
         storage.addPatientData(1, 93.0, "Saturation", 1000L + 5 * 60 * 1000L);
@@ -130,7 +136,7 @@ class AlertGeneratorTest {
 
     @Test
     void rapidSaturationDropAfterMoreThanTenMinutesDoesNotTriggerAlert() {
-        DataStorage storage = new DataStorage();
+        DataStorage storage = DataStorage.getInstance();
 
         storage.addPatientData(1, 98.0, "Saturation", 1000L);
         storage.addPatientData(1, 90.0, "Saturation", 1000L + 11 * 60 * 1000L);
@@ -143,7 +149,7 @@ class AlertGeneratorTest {
 
     @Test
     void evaluateDataTriggersHypotensiveHypoxemiaAlert() {
-        DataStorage storage = new DataStorage();
+        DataStorage storage = DataStorage.getInstance();
 
         storage.addPatientData(1, 88.0, "SystolicPressure", 1000L);
         storage.addPatientData(1, 91.0, "Saturation", 2000L);
@@ -156,7 +162,7 @@ class AlertGeneratorTest {
 
     @Test
     void evaluateDataTriggersManualAlert() {
-        DataStorage storage = new DataStorage();
+        DataStorage storage = DataStorage.getInstance();
 
         storage.addPatientData(1, 1.0, "Alert", 1000L);
 
@@ -168,7 +174,7 @@ class AlertGeneratorTest {
 
     @Test
     void evaluateDataTriggersAbnormalEcgPeakAlert() {
-        DataStorage storage = new DataStorage();
+        DataStorage storage = DataStorage.getInstance();
 
         storage.addPatientData(1, 0.1, "ECG", 1000L);
         storage.addPatientData(1, 0.1, "ECG", 2000L);

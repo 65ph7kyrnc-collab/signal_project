@@ -7,12 +7,18 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for FileDataReader.
  */
 class FileDataReaderTest {
+    @BeforeEach
+    void clearSingletonStorageBeforeEachTest() {
+        DataStorage.getInstance().clear();
+    }
+
     @Test
     void readDataParsesSimulatorOutputFiles() throws Exception {
         Path directory = Files.createTempDirectory("signal-reader-test");
@@ -25,7 +31,7 @@ class FileDataReaderTest {
                 directory.resolve("Alert.txt"),
                 "Patient ID: 2, Timestamp: 2000, Label: Alert, Data: triggered\n");
 
-        DataStorage storage = new DataStorage();
+        DataStorage storage = DataStorage.getInstance();
 
         new FileDataReader(directory.toString()).readData(storage);
 
@@ -47,7 +53,7 @@ class FileDataReaderTest {
                 "This is not a valid simulator output line\n"
                         + "Patient ID: 1, Timestamp: 1000, Label: ECG, Data: 0.5\n");
 
-        DataStorage storage = new DataStorage();
+        DataStorage storage = DataStorage.getInstance();
 
         new FileDataReader(directory.toString()).readData(storage);
 
@@ -59,7 +65,7 @@ class FileDataReaderTest {
 
     @Test
     void readDataThrowsExceptionForMissingDirectory() {
-        DataStorage storage = new DataStorage();
+        DataStorage storage = DataStorage.getInstance();
 
         assertThrows(
                 IOException.class,
